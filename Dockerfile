@@ -5,13 +5,13 @@ WORKDIR /app
 # Копируем только package-файлы
 COPY package*.json ./
 
-# Устанавливаем зависимости
-RUN npm ci
+# Устанавливаем зависимости без postinstall
+RUN npm ci --ignore-scripts
 
 # Копируем все остальные файлы
 COPY . .
 
-# Собираем проект
+# Собираем проект вручную
 RUN npm run build
 
 EXPOSE 8080
