@@ -13,7 +13,7 @@ RUN npm install
 # Копируем остальные файлы проекта
 COPY . .
 
-# Компилируем TypeScript
+# Собираем проект
 RUN npm run build
 
 # Открываем порт
