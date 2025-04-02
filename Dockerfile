@@ -2,14 +2,14 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Копируем все файлы проекта сразу, включая скрипты
-COPY . .
+# Копируем package-файлы
+COPY package*.json ./
 
-# Устанавливаем зависимости с игнорированием postinstall скриптов
+# Устанавливаем зависимости с игнорированием postinstall
 RUN npm ci --ignore-scripts
 
-# Делаем скрипт executable
-RUN chmod +x scripts/build.js
+# Копируем все файлы проекта
+COPY . .
 
 # Собираем проект
 RUN npm run build
