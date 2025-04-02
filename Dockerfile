@@ -2,16 +2,19 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Копируем только package-файлы
+# Копируем только необходимые файлы для установки зависимостей
 COPY package*.json ./
 
-# Устанавливаем зависимости без postinstall
-RUN npm ci --ignore-scripts
+# Устанавливаем зависимости
+RUN npm ci
 
 # Копируем все остальные файлы
 COPY . .
 
-# Собираем проект вручную
+# Устанавливаем права на выполнение скрипта build.js
+RUN chmod +x scripts/build.js
+
+# Собираем проект
 RUN npm run build
 
 EXPOSE 8080
