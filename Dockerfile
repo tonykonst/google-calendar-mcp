@@ -1,9 +1,10 @@
 FROM node:18-alpine
 WORKDIR /app
 
-# 1. Копируем package.json и скрипты (они нужны для postinstall)
+# 1. Копируем сначала все нужные файлы
 COPY package*.json ./
 COPY scripts/ ./scripts/
+COPY src/ ./src/
 
 # 2. Устанавливаем зависимости
 RUN npm install
