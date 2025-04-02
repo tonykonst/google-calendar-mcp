@@ -4,7 +4,7 @@ WORKDIR /app
 
 # 1. Копируем только нужные файлы для установки зависимостей
 COPY package*.json ./
-COPY scripts/ ./scripts/   # обязательно добавить эту строку!
+COPY scripts/ ./scripts/
 
 # 2. Устанавливаем зависимости (включая postinstall)
 RUN npm install
