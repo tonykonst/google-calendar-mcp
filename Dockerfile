@@ -1,29 +1,21 @@
 FROM node:18-alpine
 
-# Устанавливаем необходимые инструменты
-RUN apk add --no-cache python3 build-base
-
 WORKDIR /app
 
-# Копируем только package-файлы
+# Копируем package.json и package-lock.json
 COPY package*.json ./
 
-# Устанавливаем зависимости с принудительным игнорированием postinstall
-RUN npm install --ignore-scripts
+# Устанавливаем зависимости
+RUN npm ci
 
-# Копируем все остальные файлы проекта
+# Копируем все файлы проекта
 COPY . .
 
-# Делаем скрипт executable
-RUN chmod +x scripts/build.js
-
-# Устанавливаем esbuild глобально
-RUN npm install -g esbuild
-
-# Собираем проект принудительно
+# Собираем проект
 RUN npm run build
 
+# Открываем порт
 EXPOSE 8080
 
-# Команда запуска
+# Команда запуска - используем build/index.js
 CMD ["npm", "start"]
