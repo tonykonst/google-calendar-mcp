@@ -2,14 +2,17 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Копируем package.json и package-lock.json
+# Копируем только package.json и package-lock.json
 COPY package*.json ./
 
-# Устанавливаем зависимости
-RUN npm ci
+# Устанавливаем зависимости с игнорированием postinstall скриптов
+RUN npm ci --ignore-scripts
 
 # Копируем все файлы проекта
 COPY . .
+
+# Делаем скрипт executable
+RUN chmod +x scripts/build.js
 
 # Собираем проект
 RUN npm run build
@@ -17,5 +20,5 @@ RUN npm run build
 # Открываем порт
 EXPOSE 8080
 
-# Команда запуска - используем build/index.js
+# Команда запуска
 CMD ["npm", "start"]
