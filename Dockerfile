@@ -2,20 +2,19 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Копируем все файлы проекта
-COPY . .
-
-# Копируем package-файлы
+# Сначала только package*.json и scripts/, чтобы использовать кеш
 COPY package*.json ./
+COPY scripts/ scripts/
 
-# Устанавливаем зависимости с игнорированием postinstall
+# Установка зависимостей без postinstall
 RUN npm ci --ignore-scripts
 
-# Собираем проект
+# Копируем остальные файлы проекта
+COPY . .
+
+# Запускаем сборку (она уже вызовет build.js через npm run build)
 RUN npm run build
 
-# Открываем порт
 EXPOSE 8080
 
-# Команда запуска
 CMD ["npm", "start"]
