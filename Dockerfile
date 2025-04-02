@@ -1,12 +1,23 @@
-FROM python:3.9-slim
+# Используем официальный образ Node.js
+FROM node:18-alpine
 
+# Устанавливаем рабочую директорию
 WORKDIR /app
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Копируем package.json и package-lock.json
+COPY package*.json ./
 
+# Устанавливаем зависимости
+RUN npm install
+
+# Копируем остальные файлы проекта
 COPY . .
 
+# Компилируем TypeScript
+RUN npm run build
+
+# Открываем порт
 EXPOSE 8080
 
-CMD ["python", "main.py"]
+# Команда запуска
+CMD ["npm", "start"]
