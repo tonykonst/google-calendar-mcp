@@ -18,3 +18,5 @@ RUN npm run build
 EXPOSE 8080
 
 CMD ["npm", "start"]
+
+RUN echo "CHECKING SCRIPTS:" && ls -la scripts && node scripts/build.js
